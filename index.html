@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Cadastro com PHP e JSON</title>
+	<link rel="stylesheet" type="text/css" href="../bootstrap.min.css">
+	<script type="text/javascript" src="../jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../bootstrap.min.js"></script>
+</head>
+<style type="text/css">
+	.margem {
+		margin-bottom: 20px;
+	}
+	label {
+		font-weight: bold;
+	}
+</style>
+<body>
+
+	<div class="container">
+		<div class="alert" id="alert" role="alert"></div>
+		<h2 class="h2 mt-5 margem">Tutorial - Enviar um cadastro sem refreh com PHP e AJAX</h2>
+		<form id="name_form">
+			<label>Nome</label>
+			<input type="text" name="nome" id="nome" class="form-control margem">
+			<label>Telefone</label>
+			<input type="text" name="fone" id="fone" class="form-control margem">
+			<label>Cidade</label>
+			<input type="text" name="cidade" id="cidade" class="form-control margem">
+			<input type="button" name="submit" id="submit" class="btn btn-info" value="Cadastrar">
+		</form>
+	</div>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$('#submit').click(function(){
+			var nome = $('#nome').val();
+			var fone = $('#fone').val();
+			var cidade = $('#cidade').val();
+
+			$('#alert').html('');
+			if (nome == '') {
+				$('#alert').html('Preencher o nome.');
+				$('#alert').addClass("alert-danger");
+				return false;				
+			}
+
+			$('#alert').html('');
+			if (fone == '') {
+				$('#alert').html('Preencher o telefone.');
+				$('#alert').addClass("alert-danger");
+				return false;
+			}
+
+			$('#alert').html('');
+			if (cidade == '') {
+				$('#alert').html('Preencher a cidade.');
+				$('#alert').addClass("alert-danger");
+				return false;
+			}
+
+			$('#alert').html('');
+
+			$.ajax({
+				url:'enviar.php',
+				method: 'POST',
+				data: {nome: nome, fone:fone, cidade:cidade},
+				success: function(result) {
+					$('form').trigger("reset");
+					$('#alert').addClass("alert-success");
+					$('#alert').fadeIn().html(result);
+					setTimeout(function(){
+						$('#alert').fadeOut('Slow');
+					},3000);
+				}
+			});
+
+
+
+		});
+	});
+
+</script>
